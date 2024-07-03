@@ -9,6 +9,5 @@
 *.pyo
 
 /*.egg-info
-/virtualenv
-
-config.yaml
+/venv
+/s3tests.conf

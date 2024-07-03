@@ -14,7 +14,7 @@ is_secure = False
 ## all the buckets created will start with this prefix;
 ## {random} will be filled with random characters to pad
 ## the prefix to 30 characters long, and avoid collisions
-bucket prefix = yournamehere-{random}-
+bucket prefix = yournamehere-
 
 [s3 main]
 # main display_name set in vstart.sh
