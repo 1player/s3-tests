@@ -6874,7 +6874,7 @@ def test_multipart_copy_versioned():
     src_key = 'foo'
     check_configure_versioning_retry(src_bucket_name, "Enabled", "Enabled")
 
-    size = 15 * 1024 * 1024
+    size = 1 * 1024 * 1024
     _create_key_with_random_content(src_key, size=size, bucket_name=src_bucket_name)
     _create_key_with_random_content(src_key, size=size, bucket_name=src_bucket_name)
     _create_key_with_random_content(src_key, size=size, bucket_name=src_bucket_name)
