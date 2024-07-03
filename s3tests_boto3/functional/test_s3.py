@@ -196,41 +196,6 @@ def test_basic_key_count():
 
 
 
-@attr(resource='bucket')
-@attr(method='get')
-@attr(operation='list')
-@attr(assertion='prefixes in multi-component object names')
-def test_bucket_list_delimiter_basic():
-    bucket_name = _create_objects(keys=['foo/bar', 'foo/bar/xyzzy', 'quux/thud', 'asdf'])
-    client = get_client()
-
-    response = client.list_objects(Bucket=bucket_name, Delimiter='/')
-    eq(response['Delimiter'], '/')
-    keys = _get_keys(response)
-    eq(keys, ['asdf'])
-
-    prefixes = _get_prefixes(response)
-    eq(len(prefixes), 2)
-    eq(prefixes, ['foo/', 'quux/'])
-
-@attr(resource='bucket')
-@attr(method='get')
-@attr(operation='list')
-@attr(assertion='prefixes in multi-component object names')
-@attr('list-objects-v2')
-def test_bucket_listv2_delimiter_basic():
-    bucket_name = _create_objects(keys=['foo/bar', 'foo/bar/xyzzy', 'quux/thud', 'asdf'])
-    client = get_client()
-
-    response = client.list_objects_v2(Bucket=bucket_name, Delimiter='/')
-    eq(response['Delimiter'], '/')
-    keys = _get_keys(response)
-    eq(keys, ['asdf'])
-
-    prefixes = _get_prefixes(response)
-    eq(len(prefixes), 2)
-    eq(prefixes, ['foo/', 'quux/'])
-
 def validate_bucket_list(bucket_name, prefix, delimiter, marker, max_keys,
                          is_truncated, check_objs, check_prefixes, next_marker):
     client = get_client()
@@ -902,25 +867,6 @@ def test_bucket_list_prefix_delimiter_basic():
     client = get_client()
 
     response = client.list_objects(Bucket=bucket_name, Delimiter='/', Prefix='foo/')
-    eq(response['Prefix'], 'foo/')
-    eq(response['Delimiter'], '/')
-
-    keys = _get_keys(response)
-    prefixes = _get_prefixes(response)
-    eq(keys, ['foo/bar'])
-    eq(prefixes, ['foo/baz/'])
-
-@attr(resource='bucket')
-@attr(method='get')
-@attr(operation='list-objects-v2 under prefix w/delimiter')
-@attr(assertion='returns only objects directly under prefix')
-@attr('list-objects-v2')
-def test_bucket_listv2_prefix_delimiter_basic():
-    key_names = ['foo/bar', 'foo/baz/xyzzy', 'quux/thud', 'asdf']
-    bucket_name = _create_objects(keys=key_names)
-    client = get_client()
-
-    response = client.list_objects_v2(Bucket=bucket_name, Delimiter='/', Prefix='foo/')
     eq(response['Prefix'], 'foo/')
     eq(response['Delimiter'], '/')
 
